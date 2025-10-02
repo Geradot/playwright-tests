@@ -75,7 +75,7 @@ test("Проверка кнопки Get Started", async ({ page }) => {
 
   await expect.soft(page.getByRole("link", { name: "Get started" })).toBeVisible();
   await expect.soft(page.getByRole("link", { name: "Get started" })).toContainText(
-    "Get startedawait expect(page.getByRole('banner')).toContainText('Get started');"
+    "Get started"
   );
   await expect.soft(page.getByRole("link", { name: "Get started" })).toHaveAttribute(
     "href",
