@@ -68,6 +68,20 @@ const elements: Element[] = [
     locator: (page) => page.getByLabel("Search (Ctrl+K)"),
     name: "Search",
   },
+  {
+    locator: (page) => page.getByRole("heading", { name: "Playwright enables reliable" }),
+    name: "Title",
+    text: "Playwright enables reliable end-to-end testing for modern web apps.",
+  },
+  {
+    locator: (page) => page.getByRole("link", { name: "Get started" }),
+    name: "Get started button",
+    text: "Get started",
+    attribute: {
+      type: "href",
+      value: "/docs/intro",
+    }
+  }
 ];
 
 test.describe("Тесты главной страницы", () => {
@@ -120,27 +134,5 @@ test.describe("Тесты главной страницы", () => {
       "dark"
     );
   });
-
-  test("Проверка заголовка страницы", async ({ page }) => {
-    await expect(
-      page.getByRole("heading", { name: "Playwright enables reliable" })
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Playwright enables reliable" })
-    ).toContainText(
-      "Playwright enables reliable end-to-end testing for modern web apps."
-    );
-  });
-
-  test("Проверка кнопки Get Started", async ({ page }) => {
-    await expect
-      .soft(page.getByRole("link", { name: "Get started" }))
-      .toBeVisible();
-    await expect
-      .soft(page.getByRole("link", { name: "Get started" }))
-      .toContainText("Get started");
-    await expect
-      .soft(page.getByRole("link", { name: "Get started" }))
-      .toHaveAttribute("href", "/docs/intro");
-  });
+  
 });
