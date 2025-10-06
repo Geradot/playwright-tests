@@ -10,7 +10,7 @@ const elements: Element[] = [
     attribute: {
       type: "href",
       value: "/",
-    }
+    },
   },
   {
     locator: (page) => page.getByRole("link", { name: "Docs" }),
@@ -69,7 +69,8 @@ const elements: Element[] = [
     name: "Search",
   },
   {
-    locator: (page) => page.getByRole("heading", { name: "Playwright enables reliable" }),
+    locator: (page) =>
+      page.getByRole("heading", { name: "Playwright enables reliable" }),
     name: "Title",
     text: "Playwright enables reliable end-to-end testing for modern web apps.",
   },
@@ -80,9 +81,11 @@ const elements: Element[] = [
     attribute: {
       type: "href",
       value: "/docs/intro",
-    }
-  }
+    },
+  },
 ];
+
+const lightMods = ["light", "dark"] as const;
 
 test.describe("Тесты главной страницы", () => {
   test.beforeEach(async ({ page }) => {
@@ -112,7 +115,10 @@ test.describe("Тесты главной страницы", () => {
     elements.forEach(({ locator, name, attribute }) => {
       if (attribute) {
         test.step(`${name}`, async () => {
-          await expect(locator(page)).toHaveAttribute(attribute.type, attribute.value);
+          await expect(locator(page)).toHaveAttribute(
+            attribute.type,
+            attribute.value
+          );
         });
       }
     });
@@ -134,5 +140,12 @@ test.describe("Тесты главной страницы", () => {
       "dark"
     );
   });
-  
+  lightMods.forEach((value) => {
+    test(`Проверка стилей в режиме ${value}`, async ({ page }) => {
+      await page.evaluate((mode) => {
+        document.querySelector("html")?.setAttribute("data-theme", mode);
+      }, value);
+      await expect(page).toHaveScreenshot(`pageWith${value}Mode.png`);
+    });
+  });
 });
